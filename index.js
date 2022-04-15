@@ -8,7 +8,7 @@ const { createTransport } = require("nodemailer")
 const app = express()
 app.use(express.json())
 app.use(cors())
-const url = `mongodb+srv://kiran:t8uG7DcduW7VpOl1@cluster0.yo2mf.mongodb.net/test?authSource=admin&replicaSet=atlas-21lddk-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true`
+const url = `mongodb+srv://kiran:OCYpJXcPOmdBvGE0@cluster0.pchuk.mongodb.net/test?authSource=admin&replicaSet=atlas-sgk23x-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true`
 const databasenmae = "urlshortner"
 const client = new MongoClient(url)
 
@@ -112,6 +112,7 @@ app.post("/otpverification",async (req,res)=>{
     console.log(user)
     if(user.length> 0){
             if(user[0].otp == req.body.otp){
+                let removeOtp = await table.updateOne({email:user[0].email},{$unset:{otp:req.body.otp}})
                 res.send("Correct OTP")
             }else{
                 res.send("Incorrect OTP")
